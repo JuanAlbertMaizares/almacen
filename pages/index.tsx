@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 
 import { Product } from '../product/types';
 import api from '../product/api';
-import { Button, Grid, Stack, Text } from '@chakra-ui/react';
+import { Button, Grid, Image, Stack, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 
 interface Props{
@@ -30,13 +30,17 @@ const IndexRoute: React.FC<Props> = ({products}) => {
   }, [cart]);
   
   return (
-    <Stack>
+    <Stack spacing={6}>
       <Grid gridGap={6} templateColumns="repeat(auto-fill, minmax(240px, 1fr))">
         { products.map(product => 
-          <Stack key={ product.id } backgroundColor="gray.100">
-            <Text>{ product.title }</Text>
-            <Text>{ product.price }</Text>
-            <Button onClick={() => handleAddToCart(product)} colorScheme="blue">Agregar</Button>
+          <Stack spacing={3} borderRadius="md" padding={4} key={ product.id } backgroundColor="gray.100">
+            <Stack spacing={1}>
+              <Text>{ product.title }</Text>
+              <Text> ${product.price} </Text>
+              <Image alt='hola' width={300} height={250} src={product.image} />
+
+            </Stack>
+            <Button size="sm" onClick={() => handleAddToCart(product)} colorScheme="primary" variant="outline">Agregar</Button>
             
           </Stack>
         )}
@@ -44,6 +48,9 @@ const IndexRoute: React.FC<Props> = ({products}) => {
       { Boolean(cart.length) && (
         
         <Button 
+          position="sticky"
+          bottom={0}
+          margin="auto"
           as={Link}
           colorScheme="whatsapp"
           href={`https://wa.me/542217787889?text=${encodeURIComponent(text)}`}
